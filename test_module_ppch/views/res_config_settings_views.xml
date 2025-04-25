@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="sale_renting.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//setting[@name='rental_delay_costs']" position="after">
-                <setting string="Use pickings for rental orders"
+                <setting string="Use pickings for implied gorups"
                          help="Enable this to allow use of pickings in rental orders.">
                     <field name="group_new_implied_group"/>
                 </setting>
