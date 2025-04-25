@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <template id="external_layout_din5008_inherited" inherit_id="l10n_din5008.external_layout_din5008">
+      <xpath expr="//div[contains(@t-attf-class,'header')]//table" position="replace">
+        <div t-attf-style="margin-left: {{ '' if report_type != 'pdf' else '-10px' }}; padding-top: {{ '' if report_type != 'pdf' else '50px' }}; margin-right: {{ '' if report_type != 'pdf' else '0' }};">
+          <img t-att-src="image_data_uri(company.logo)" t-att-style="'max-width: %s; height: auto;' % ('100%' if report_type != 'pdf' else '1200px')" />
+        </div>
+      </xpath>
+      <xpath expr="//div[contains(@t-attf-class, 'din_page invoice_note')]" position="attributes">
+        <attribute name="t-attf-style">
+          padding-top: {{ '10px' if report_type != 'pdf' else '160px' }};
+          background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/demo_logo_report.png' if company.layout_background == 'Demo logo' else '' }});
+        </attribute>
+      </xpath>
+      <xpath expr="//h2" position="attributes">
+        <attribute name="t-attf-style">margin-left: {{ '14mm' if report_type != 'pdf' else '70px' }};</attribute>
+      </xpath>
+      <xpath expr="//table[contains(@class, 'din_company_info') and contains(@class, 'table-borderless')]" position="attributes">
+        <attribute name="t-attf-style">margin-left: {{ '10mm' if report_type != 'pdf' else '50px' }}; margin-right: {{ '' if report_type != 'pdf' else '70px' }};</attribute>
+      </xpath>
+      <xpath expr="//div[contains(@t-attf-class, 'din_page footer')]" position="attributes">
+        <attribute name="t-attf-style">margin-left: {{ '10mm' if report_type != 'pdf' else '33px' }};</attribute>
+      </xpath>
+      <xpath expr="//t[@t-out='0']" position="replace">
+        <div t-attf-style="margin-left: {{ '50px' if report_type == 'pdf' else '10mm' }}; margin-right: {{ '-95px' if report_type == 'pdf' else '' }};">
+          <t t-out="0" />
+        </div>
+      </xpath>
+    </template>
+
+    <template id="din5008_css" inherit_id="l10n_din5008.din5008_css">
+      <xpath expr="//t[@t-elif]" position="before">
+        <t t-elif="layout == 'l10n_din5008.external_layout_din5008'">
+          &amp;.din_page {
+            .page {
+              [name=invoice_line_table],
+              [name=stock_move_table],
+              .o_main_table {
+                th {
+                  color: <t t-out="secondary"/>;
+                }
+                tbody tr {
+                  border-bottom: 1px solid #d3d3d3 !important;
+                }
+              }
+            }
+          }
+        </t>
+      </xpath>
+    </template>
+
+    <record id="l10n_din5008.paperformat_euro_din_a" model="report.paperformat">
+      <field name="margin_top">16</field>
+      <field name="margin_left">0</field>
+      <field name="margin_right">0</field>
+    </record>
+
+    <record id="l10n_din5008.paperformat_euro_din" model="report.paperformat">
+      <field name="margin_top">16</field>
+      <field name="margin_left">0</field>
+      <field name="margin_right">0</field>
+    </record>
+
+    <template id="custom_report_layout" inherit_id="web.report_layout">
+      <xpath expr="//body" position="attributes">
+        <attribute name="t-attf-class">"o_body_html {{'container' if not full_width else 'container-fluid'}} overflow-x-hidden" t-att-dir="env['res.lang']._get_data(code=lang or env.user.lang).direction or 'ltr'" py-0</attribute>
+      </xpath>
+    </template>
+  </data>
+</odoo>

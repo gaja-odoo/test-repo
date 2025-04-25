@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="report_saleorder_document_sequence"
+        inherit_id="sale.report_saleorder_document"
+    >
+        <xpath
+            expr="//thead/tr/th[1][@name='th_description']"
+            position="before"
+        >
+            <th>
+                <strong>Pos.</strong>
+            </th>
+        </xpath>
+        <xpath
+            expr="//td[@name='td_name']"
+            position="before"
+        >
+            <td>
+                <span t-field="line.visible_sequence" />
+            </td>
+        </xpath>
+    </template>
+</odoo>
